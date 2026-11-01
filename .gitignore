@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+high_score.txt
+backup_before_ch12/
+.DS_Store
