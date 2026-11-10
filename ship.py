@@ -1,4 +1,3 @@
-import pygame
 from pygame.sprite import Sprite
 
 
@@ -7,9 +6,9 @@ class Ship(Sprite):
         super().__init__()
         self.screen = ai_game.screen
         self.settings = ai_game.settings
-        self.screen_rect = ai_game.screen.get_rect()
+        self.screen_rect = ai_game.play_area.copy()
 
-        self.image = pygame.image.load('images/ship.bmp')
+        self.image = ai_game.images['ship']
         self.rect = self.image.get_rect()
         # 底部中间
         self.rect.midbottom = self.screen_rect.midbottom
@@ -20,12 +19,13 @@ class Ship(Sprite):
         self.moving_right = False
         self.moving_left = False
 
-    def update(self):
-        if self.moving_right and self.rect.right < self.screen_rect.right:
-            self.x += self.settings.ship_speed
-        if self.moving_left and self.rect.left > 0:
-            self.x -= self.settings.ship_speed
-        self.rect.x = self.x
+    def update(self, frame_scale=1.0):
+        direction = int(self.moving_right) - int(self.moving_left)
+        self.x += direction * self.settings.ship_speed * frame_scale
+        # Clamp the floating-point position too, including at higher levels.
+        self.x = max(self.screen_rect.left, min(
+            self.x, self.screen_rect.right - self.rect.width))
+        self.rect.x = round(self.x)
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
