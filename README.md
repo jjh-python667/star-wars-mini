@@ -105,6 +105,7 @@ If the command is `python3` on your machine, use `python3` in both places.
 | `requirements.txt` | `pygame==2.6.1`. |
 | `GAMEPLAY.md` | Notes from the 2026-11-10 code pass. Current behavior is the source and this README. · 2026-11-10 代码维护的记录。当前行为以源码和本 README 为准。 |
 | `docs/screenshot-start.png`, `docs/screenshot.png` | Frames captured under Xvfb, shown above. · 上面两次画面，在 Xvfb 下截取。 |
+| `LICENSE` | Standard MIT License text. · 标准 MIT 许可文本。 |
 | `CHANGELOG.md` | Dated change log. · 按日期写的变更记录。 |
 | `.gitignore` | Ignores caches and the local `high_score.txt`. · 忽略缓存和本地的 `high_score.txt`。 |
 
@@ -130,6 +131,12 @@ The text of *Python Crash Course* is not in this repository. The window title us
 《Python Crash Course》的正文不在这个仓库里。窗口标题用了 Star Wars 这个名字，仓库里没有星球大战的角色或电影图片。
 
 项目参考了教材示例，图片素材的授权需要单独核对，本仓库不对教材和素材作额外授权声明。
+
+## License · 许可
+
+Source code and project documentation are under the MIT License. See `LICENSE`. Copyright 2026 jjh-python667.
+
+源代码和项目文档使用 MIT 许可，见 `LICENSE`。版权所有 © 2026 jjh-python667。
 
 ## Related · 相关
 
