@@ -12,19 +12,19 @@ The structure follows the Alien Invasion project in Eric Matthes, *Python Crash 
 
 ![Start screen: gray window, alien fleet, rocket at the bottom, green Play button, score at zero](docs/screenshot-start.png)
 
-The first frame after launch, saved on 2026-11-11 from a local run of `python3 alien_invasion.py`. The fleet and the ship are already drawn, and they stay still until the round starts.
+The first frame after launch, captured under Xvfb on 2026-11-11 while running `python3 alien_invasion.py`. The fleet and the ship are already drawn, and they stay still until the round starts.
 
-启动后的第一帧，2026-11-11 在本地运行 `python3 alien_invasion.py` 时从窗口保存。外星人和飞船已经画好，开始之前停在原地。
+启动后的第一帧。2026-11-11 在 Xvfb 下运行 `python3 alien_invasion.py` 时截取。外星人和飞船已经画好，开始之前停在原地。
 
 ![After one hit: Score 50, HI 50, one alien missing from the fleet, three lives left](docs/screenshot.png)
 
-Later in that same run: P starts the round, Right moves the ship, and Space fires. After the bullet hits one alien, the score is the integer 50 and `HI` becomes 50. The frame was saved from the window surface with `pygame.image.save`.
+Later in that same Xvfb run: P starts the round, Right moves the ship, and Space fires. After the bullet hits one alien, the score is the integer 50 and `HI` becomes 50.
 
-同一次运行的后面：按 P 开始，按右方向键移动，按空格发射。子弹打中一个外星人后，分数是整数 50，`HI` 也变成 50。这一帧是用 `pygame.image.save` 从窗口表面保存的。
+同一次 Xvfb 运行的后面：按 P 开始，按右方向键移动，按空格发射。子弹打中一个外星人后，分数是整数 50，`HI` 也变成 50。
 
-With this machine's 1200×800 window and the current bitmaps, the opening fleet is 7 rows by 11 columns, 77 aliens.
+The window size is hardcoded at 1200×800 in `settings.py`. With the current bitmaps, the opening fleet is 7 rows by 11 columns, 77 aliens.
 
-以现在的 1200×800 窗口和这两张图，开局是 7 行 11 列，共 77 个外星人。
+窗口尺寸在 `settings.py` 里固定为 1200×800。按这个尺寸和现在的两张图，开局是 7 行 11 列，共 77 个外星人。
 
 ## What it does · 它会做什么
 
@@ -104,8 +104,8 @@ If the command is `python3` on your machine, use `python3` in both places.
 | `.github/workflows/test.yml` | Runs those tests on Ubuntu and Windows, with Python 3.10 and 3.12. · 在 Ubuntu、Windows 上用 Python 3.10 和 3.12 跑同一组测试。 |
 | `requirements.txt` | `pygame==2.6.1`. |
 | `GAMEPLAY.md` | Notes from the 2026-11-10 code pass. Current behavior is the source and this README. · 2026-11-10 代码维护的记录。当前行为以源码和本 README 为准。 |
-| `docs/screenshot-start.png`, `docs/screenshot.png` | Frames saved from the run shown above. · 上面两次画面的窗口截图。 |
-| `LICENSE` | MIT for the source and the docs, with the scope note below. · 源代码和文档的 MIT 许可，范围见下文。 |
+| `docs/screenshot-start.png`, `docs/screenshot.png` | Frames captured under Xvfb, shown above. · 上面两次画面，在 Xvfb 下截取。 |
+| `LICENSE` | Standard MIT License text. · 标准 MIT 许可文本。 |
 | `CHANGELOG.md` | Dated change log. · 按日期写的变更记录。 |
 | `.gitignore` | Ignores caches and the local `high_score.txt`. · 忽略缓存和本地的 `high_score.txt`。 |
 
@@ -136,7 +136,7 @@ The MIT text does not include the prose of *Python Crash Course*, and it does no
 
 ## Related · 相关
 
-作品集页面和这份仓库不一定是同一次更新。当前行为以这里的源码和本 README 为准。
+当前行为以这里的源码和本 README 为准。
 
 - [作品集中的本项目页面](https://jjh-python667.github.io/projects/star-wars-mini.html)
 - [作品集首页](https://jjh-python667.github.io/)

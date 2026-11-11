@@ -19,17 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-Scope of this repository
-
-The permission grant above applies to the source code and project documentation
-in this repository. It does not apply to the following:
-
-- images/ship.bmp and images/alien.bmp. This repository does not record an
-  author or a license for those two files. They are also not the bitmap files
-  distributed with the public Python Crash Course source repositories. Read
-  README.md before copying them.
-- The text of Python Crash Course (No Starch Press). That book is not included
-  here.
-- The Star Wars name. This repository has no Star Wars artwork. The project is
-  an unofficial student exercise.

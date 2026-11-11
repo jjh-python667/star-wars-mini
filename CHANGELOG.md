@@ -5,17 +5,15 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project does not publish version numbers, so each entry is a date.
 
-## [Unreleased]
-
-## [2026-11-11]
+## 2026-11-11
 
 The 2026-11-10 gameplay behavior is unchanged. Pause, exact scores, three lives, three bullets, and the high-score file are described in `GAMEPLAY.md`.
 
 ### Added
 
-- `LICENSE`, the MIT License for the source code and project documentation, plus a scope note for the two BMP images, the textbook text, and the Star Wars name.
+- `LICENSE`, the standard MIT License text. Scope notes for the BMP images, the book text, and the Star Wars name are in `README.md`.
 - Bilingual `README.md` that describes the behavior in the current source, how to run it, the controls, and the file layout.
-- `docs/screenshot-start.png` and `docs/screenshot.png`, saved from the game window while running `alien_invasion.py`.
+- `docs/screenshot-start.png` and `docs/screenshot.png`, captured under Xvfb while running `alien_invasion.py`.
 - This changelog.
 
 ### Changed
