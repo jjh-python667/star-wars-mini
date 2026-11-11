@@ -116,15 +116,26 @@ python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 ```
 
-The tests cover bullet and life limits, pause and focus loss, restarting, input, collisions and scoring, edges, launching from another directory, image reuse, and high-score saving. Score files for the tests go in a temporary directory. A full round is the window itself.
+The tests cover bullet and life limits, pause and focus loss, restarting, input, collisions and scoring, edges, launching from another directory, image reuse, and high-score saving. Score files for the tests go in a temporary directory. A full round is played by opening the game window.
 
 测试覆盖子弹和生命上限、暂停和失焦、重新开始、按键、碰撞计分、边界、从其他目录启动、图片复用，以及最高分保存。测试用的分数文件写在临时目录里。完整的一局还是要打开窗口来玩。
 
 ## Images · 图片
 
-`images/ship.bmp` is a 60×48 upward rocket. `images/alien.bmp` is a 48×36 green creature. Both are 24-bit BMPs whose corner color is the same light gray as the window. This repository does not record who made them. On 2026-11-11 they were compared with the bitmaps in the public [ehmatthes/pcc_2e](https://github.com/ehmatthes/pcc_2e) and [ehmatthes/pcc_3e](https://github.com/ehmatthes/pcc_3e) repositories. They are different pictures: the book's ship is a side-view rocket, and the book's alien is a larger flying saucer (60×58).
+`images/ship.bmp` is a 60×48 upward rocket. `images/alien.bmp` is a 48×36 green creature. Both are 24-bit BMPs whose corner color is the same light gray as the window. This repository does not record who made them. The bitmaps differ from the textbook originals in [ehmatthes/pcc_2e](https://github.com/ehmatthes/pcc_2e) and [ehmatthes/pcc_3e](https://github.com/ehmatthes/pcc_3e) (sha256 listed below). The textbook ship is a side-view rocket, and the textbook alien is a larger flying saucer (60×58).
 
-`images/ship.bmp` 是 60×48 的向上火箭，`images/alien.bmp` 是 48×36 的绿色小生物。两张都是 24 位 BMP，四角的浅灰和窗口背景相同。仓库里没有写下作者。2026-11-11 与公开仓库 [ehmatthes/pcc_2e](https://github.com/ehmatthes/pcc_2e)、[ehmatthes/pcc_3e](https://github.com/ehmatthes/pcc_3e) 里的教材位图对比过，画面不同：教材飞船是侧面火箭，教材外星人是更大的飞碟（60×58）。
+`images/ship.bmp` 是 60×48 的向上火箭，`images/alien.bmp` 是 48×36 的绿色小生物。两张都是 24 位 BMP，四角的浅灰和窗口背景相同。仓库里没有写下作者。这两张图和 [ehmatthes/pcc_2e](https://github.com/ehmatthes/pcc_2e)、[ehmatthes/pcc_3e](https://github.com/ehmatthes/pcc_3e) 里的教材原图不同（sha256 见下表）。教材飞船是侧面火箭，教材外星人是更大的飞碟（60×58）。
+
+| File · 文件 | sha256 |
+| --- | --- |
+| `images/ship.bmp` | `b1abcaf2cec453ad3ae4add9fc8eb4b05e5ae45b9eb5457963ded3843a36ad97` |
+| `images/alien.bmp` | `85c1275d827b2258abce27ad83c3e2efadbd7426d6f42d25bca55e974adbe443` |
+| Textbook `ship.bmp` · 教材 `ship.bmp` | `924dda87e662a296d70f2e10bf9b96a9bb470bd056ff5b6b4e169556eb7416ab` |
+| Textbook `alien.bmp` · 教材 `alien.bmp` | `dec44dc6101217571e2dee19f502898d8225dcf4622f51e0a71d6cb67275072a` |
+
+The textbook ship hash is the file `chapter_12/adding_ship_image/images/ship.bmp` in both repositories. The textbook alien hash is `chapter_13/creating_first_alien/images/alien.bmp` in both repositories.
+
+教材飞船的哈希对应两个仓库里的 `chapter_12/adding_ship_image/images/ship.bmp`。教材外星人的哈希对应两个仓库里的 `chapter_13/creating_first_alien/images/alien.bmp`。
 
 The text of *Python Crash Course* is not in this repository. The window title uses the Star Wars name, and the repository has no Star Wars artwork.
 
