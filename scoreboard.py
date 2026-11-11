@@ -21,9 +21,7 @@ class Scoreboard:
         self.prep_ships()
 
     def prep_score(self):
-        # 凑整到10
-        rounded_score = round(self.stats.score, -1)
-        score_str = f"Score {rounded_score:,}"
+        score_str = f"Score {self.stats.score:,}"
         self.score_image = self.font.render(
             score_str, True, self.text_color, self.settings.bg_color)
         self.score_rect = self.score_image.get_rect()
@@ -31,8 +29,7 @@ class Scoreboard:
         self.score_rect.top = 20
 
     def prep_high_score(self):
-        high_score = round(self.stats.high_score, -1)
-        high_score_str = f"HI {high_score:,}"
+        high_score_str = f"HI {self.stats.high_score:,}"
         self.high_score_image = self.font.render(
             high_score_str, True, self.text_color, self.settings.bg_color)
         self.high_score_rect = self.high_score_image.get_rect()
@@ -60,7 +57,6 @@ class Scoreboard:
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
             self.prep_high_score()
-            self.stats.save_high_score()
 
     def show_score(self):
         self.screen.blit(self.score_image, self.score_rect)

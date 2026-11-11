@@ -1,11 +1,15 @@
+import logging
+import os
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 
 
 class GameStats:
-    def __init__(self, ai_game):
+    def __init__(self, ai_game, high_score_file=None):
         self.settings = ai_game.settings
         # 最高分存旁边这个文件
-        self.high_score_file = Path(__file__).with_name('high_score.txt')
+        self.high_score_file = (Path(high_score_file) if high_score_file is not None
+                                else Path(__file__).with_name('high_score.txt'))
         self.reset_stats()
         self.high_score = self.read_high_score()
 
@@ -19,12 +23,26 @@ class GameStats:
             text = self.high_score_file.read_text(encoding='utf-8').strip()
             if text == '':
                 return 0
-            return int(text)
-        except Exception:
+            return max(0, int(text))
+        except (OSError, ValueError, UnicodeError):
             return 0
 
     def save_high_score(self):
+        temporary_path = None
         try:
-            self.high_score_file.write_text(str(self.high_score), encoding='utf-8')
-        except Exception:
-            pass
+            # Replace only after a complete write; a failed save keeps the old file.
+            with NamedTemporaryFile(mode='w', encoding='utf-8',
+                                    dir=self.high_score_file.parent,
+                                    prefix=self.high_score_file.name + '.',
+                                    suffix='.tmp', delete=False) as temporary:
+                temporary_path = Path(temporary.name)
+                temporary.write(str(max(0, self.high_score)))
+            os.replace(temporary_path, self.high_score_file)
+        except OSError as error:
+            logging.getLogger(__name__).warning('Could not save high score: %s', error)
+        finally:
+            if temporary_path is not None:
+                try:
+                    temporary_path.unlink(missing_ok=True)
+                except OSError:
+                    pass

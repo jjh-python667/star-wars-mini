@@ -1,5 +1,4 @@
-import sys
-from time import sleep
+from pathlib import Path
 
 import pygame
 
@@ -13,16 +12,26 @@ from alien import Alien
 
 
 class AlienInvasion:
-    def __init__(self):
+    def __init__(self, high_score_file=None):
         pygame.init()
         self.clock = pygame.time.Clock()
         self.settings = Settings()
 
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height))
-        pygame.display.set_caption("Alien Invasion")
+        self.play_area = pygame.Rect(
+            0, self.settings.hud_height, self.settings.screen_width,
+            self.settings.screen_height - self.settings.hud_height -
+            self.settings.controls_height)
+        pygame.display.set_caption("Star Wars Mini")
+        image_dir = Path(__file__).resolve().parent / 'images'
+        # Each bitmap is read once, shared by the fleet and life icons.
+        self.images = {
+            name: pygame.image.load(image_dir / f'{name}.bmp').convert()
+            for name in ('ship', 'alien')
+        }
 
-        self.stats = GameStats(self)
+        self.stats = GameStats(self, high_score_file)
         self.sb = Scoreboard(self)
 
         self.ship = Ship(self)
@@ -32,32 +41,82 @@ class AlienInvasion:
 
         # 先别开打，等点Play
         self.game_active = False
+        self.paused = False
+        self.running = True
+        self.respawn_remaining_ms = 0
         self.play_button = Button(self, "Play")
+        self.help_font = pygame.font.Font(None, 26)
+        self.help_image = self.help_font.render(
+            'Arrows: move    Space: shoot    P / Esc: pause    Q: quit',
+            True, (60, 60, 60))
+        self.pause_image = self.play_button.font.render(
+            'Paused - P / Esc to resume', True, (30, 30, 30))
+        self.ready_image = self.play_button.font.render(
+            'Get ready', True, (30, 30, 30))
+        self.game_over_image = self.play_button.font.render(
+            'Game over', True, (30, 30, 30))
+        self.pause_overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
+        self.pause_overlay.fill((230, 230, 230, 210))
 
     def run_game(self):
-        while True:
-            self._check_events()
+        try:
+            while self.running:
+                # Speeds retain their 60-FPS feel. Cap large gaps after a stall.
+                frame_scale = min(
+                    self.clock.tick(self.settings.fps) * self.settings.fps / 1000, 3.0)
+                self._check_events()
+                if not self.running:
+                    break
+                self._update_game(frame_scale)
+                self._update_screen()
+        finally:
+            self.stats.save_high_score()
+            pygame.mouse.set_visible(True)
+            pygame.quit()
 
-            if self.game_active:
-                self.ship.update()
-                self._update_bullets()
-                self._update_aliens()
+    def _update_game(self, frame_scale=1.0):
+        if not self.game_active or self.paused:
+            return
+        if self.respawn_remaining_ms > 0:
+            self.respawn_remaining_ms = max(
+                0, self.respawn_remaining_ms - frame_scale * 1000 / self.settings.fps)
+            return
+        self.ship.update(frame_scale)
+        self._update_bullets(frame_scale)
+        self._update_aliens(frame_scale)
 
-            self._update_screen()
-            self.clock.tick(60)
+    def _can_play(self):
+        return (self.game_active and not self.paused and
+                self.respawn_remaining_ms <= 0)
+
+    def _stop_moving(self):
+        self.ship.moving_right = False
+        self.ship.moving_left = False
+
+    def _toggle_pause(self):
+        if not self.game_active:
+            return
+        self.paused = not self.paused
+        self._stop_moving()
+        pygame.mouse.set_visible(self.paused)
 
     def _check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.stats.save_high_score()
-                sys.exit()
+                self.running = False
+                return
+            elif event.type == pygame.WINDOWFOCUSLOST:
+                self._stop_moving()
+                if self.game_active and not self.paused:
+                    self._toggle_pause()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
+                if not self.running:
+                    return
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()
-                self._check_play_button(mouse_pos)
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                self._check_play_button(event.pos)
 
     def _check_play_button(self, mouse_pos):
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
@@ -79,25 +138,29 @@ class AlienInvasion:
 
         self._create_fleet()
         self.ship.center_ship()
-        self.ship.moving_right = False
-        self.ship.moving_left = False
+        self._stop_moving()
 
         self.game_active = True
+        self.paused = False
+        self.respawn_remaining_ms = 0
         pygame.mouse.set_visible(False)
 
     def _check_keydown_events(self, event):
-        if event.key == pygame.K_RIGHT:
+        if event.key == pygame.K_RIGHT and self._can_play():
             self.ship.moving_right = True
-        elif event.key == pygame.K_LEFT:
+        elif event.key == pygame.K_LEFT and self._can_play():
             self.ship.moving_left = True
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
         elif event.key == pygame.K_p:
             if not self.game_active:
                 self._start_game()
+            else:
+                self._toggle_pause()
+        elif event.key == pygame.K_ESCAPE:
+            self._toggle_pause()
         elif event.key == pygame.K_q:
-            self.stats.save_high_score()
-            sys.exit()
+            self.running = False
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -106,14 +169,14 @@ class AlienInvasion:
             self.ship.moving_left = False
 
     def _fire_bullet(self):
-        if not self.game_active:
+        if not self._can_play():
             return
-        if len(self.bullets) <= self.settings.bullets_allowed:
+        if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
 
-    def _update_bullets(self):
-        self.bullets.update()
+    def _update_bullets(self, frame_scale=1.0):
+        self.bullets.update(frame_scale)
 
         # 飞出屏幕就删
         for bullet in self.bullets.copy():
@@ -129,8 +192,6 @@ class AlienInvasion:
         if collisions:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
-            # 舍入一下
-            self.stats.score = round(self.stats.score, -1)
             self.sb.prep_score()
             self.sb.check_high_score()
 
@@ -150,9 +211,9 @@ class AlienInvasion:
         self.settings.fleet_direction = 1
 
         current_x = alien_width
-        current_y = alien_height
+        current_y = self.play_area.top + alien_height
         # 底下留点空
-        available_space_y = self.settings.screen_height - (5 * alien_height)
+        available_space_y = self.play_area.bottom - (4 * alien_height)
 
         while current_y < available_space_y:
             while current_x < (self.settings.screen_width - 2 * alien_width):
@@ -175,39 +236,48 @@ class AlienInvasion:
                 break
 
     def _change_fleet_direction(self):
+        # Keep the whole formation inside the screen after an overshoot.
+        left = min(alien.rect.left for alien in self.aliens)
+        right = max(alien.rect.right for alien in self.aliens)
+        correction = max(0, -left) + min(0, self.settings.screen_width - right)
         for alien in self.aliens.sprites():
-            alien.rect.y += 10
+            alien.x += correction
+            alien.rect.x = round(alien.x)
+            alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
-    def _update_aliens(self):
+    def _update_aliens(self, frame_scale=1.0):
+        self.aliens.update(frame_scale)
         self._check_fleet_edges()
-        self.aliens.update()
 
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
+            return
 
         self._check_aliens_bottom()
 
     def _ship_hit(self):
-        if self.stats.ships_left > 0:
-            self.stats.ships_left -= 1
-            self.sb.prep_ships()
+        if not self._can_play():
+            return
+        self.stats.ships_left = max(0, self.stats.ships_left - 1)
+        self.sb.prep_ships()
+        self._stop_moving()
+        self.bullets.empty()
+        self.aliens.empty()
+        self.ship.center_ship()
 
-            self.bullets.empty()
-            self.aliens.empty()
-
-            self._create_fleet()
-            self.ship.center_ship()
-
-            sleep(0.5)
-        else:
+        if self.stats.ships_left == 0:
             self.game_active = False
+            self.stats.save_high_score()
             pygame.mouse.set_visible(True)
+        else:
+            self._create_fleet()
+            # Keep polling events while the ship recovers, instead of sleeping.
+            self.respawn_remaining_ms = self.settings.respawn_delay_ms
 
     def _check_aliens_bottom(self):
-        screen_rect = self.screen.get_rect()
         for alien in self.aliens.sprites():
-            if alien.rect.bottom >= screen_rect.bottom:
+            if alien.rect.bottom >= self.play_area.bottom:
                 self._ship_hit()
                 break
 
@@ -222,6 +292,21 @@ class AlienInvasion:
 
         if not self.game_active:
             self.play_button.draw_button()
+            if self.stats.ships_left == 0:
+                rect = self.game_over_image.get_rect(
+                    center=(self.screen.get_width() // 2,
+                            self.screen.get_height() // 2 - 65))
+                self.screen.blit(self.game_over_image, rect)
+        elif self.paused:
+            self.screen.blit(self.pause_overlay, (0, 0))
+            self.screen.blit(self.pause_image, self.pause_image.get_rect(
+                center=self.screen.get_rect().center))
+        elif self.respawn_remaining_ms > 0:
+            self.screen.blit(self.ready_image, self.ready_image.get_rect(
+                center=self.screen.get_rect().center))
+
+        self.screen.blit(self.help_image, self.help_image.get_rect(
+            midbottom=(self.screen.get_width() // 2, self.screen.get_height() - 8)))
 
         pygame.display.flip()
 

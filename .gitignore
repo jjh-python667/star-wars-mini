@@ -1,5 +1,8 @@
 __pycache__/
 *.pyc
 high_score.txt
+high_score.txt.*.tmp
 backup_before_ch12/
 .DS_Store
+.checks/
+.venv/
