@@ -11,7 +11,7 @@ The 2026-11-10 gameplay behavior is unchanged. Pause, exact scores, three lives,
 
 ### Added
 
-- `LICENSE`, the standard MIT License text. Scope notes for the BMP images, the book text, and the Star Wars name are in `README.md`.
+- Notes on the BMP images, the book text, and the Star Wars name are in `README.md`.
 - Bilingual `README.md` that describes the behavior in the current source, how to run it, the controls, and the file layout.
 - `docs/screenshot-start.png` and `docs/screenshot.png`, captured under Xvfb while running `alien_invasion.py`.
 - This changelog.

@@ -99,13 +99,12 @@ If the command is `python3` on your machine, use `python3` in both places.
 | `game_stats.py` | Score, level, lives, and the high-score file. · 分数、关卡、生命和最高分文件。 |
 | `scoreboard.py` | Draws the score, high score, level, and life icons. · 画出分数、最高分、关卡和生命。 |
 | `button.py` | The Play button in the center. · 屏幕中央的 Play 按钮。 |
-| `images/ship.bmp`, `images/alien.bmp` | 60×48 rocket and 48×36 creature. See the license note below. · 60×48 的火箭和 48×36 的小生物。许可见下文。 |
+| `images/ship.bmp`, `images/alien.bmp` | 60×48 rocket and 48×36 creature. See Images below. · 60×48 的火箭和 48×36 的小生物。说明见下方「图片」。 |
 | `tests/test_game.py` | Regression tests with real Pygame sprites and an off-screen display. · 用真实 Pygame 精灵和无窗口显示做的回归测试。 |
 | `.github/workflows/test.yml` | Runs those tests on Ubuntu and Windows, with Python 3.10 and 3.12. · 在 Ubuntu、Windows 上用 Python 3.10 和 3.12 跑同一组测试。 |
 | `requirements.txt` | `pygame==2.6.1`. |
 | `GAMEPLAY.md` | Notes from the 2026-11-10 code pass. Current behavior is the source and this README. · 2026-11-10 代码维护的记录。当前行为以源码和本 README 为准。 |
 | `docs/screenshot-start.png`, `docs/screenshot.png` | Frames captured under Xvfb, shown above. · 上面两次画面，在 Xvfb 下截取。 |
-| `LICENSE` | Standard MIT License text. · 标准 MIT 许可文本。 |
 | `CHANGELOG.md` | Dated change log. · 按日期写的变更记录。 |
 | `.gitignore` | Ignores caches and the local `high_score.txt`. · 忽略缓存和本地的 `high_score.txt`。 |
 
@@ -120,19 +119,17 @@ The tests cover bullet and life limits, pause and focus loss, restarting, input,
 
 测试覆盖子弹和生命上限、暂停和失焦、重新开始、按键、碰撞计分、边界、从其他目录启动、图片复用，以及最高分保存。测试用的分数文件写在临时目录里。完整的一局还是要打开窗口来玩。
 
-## Images and license · 图片与许可
+## Images · 图片
 
-Source code and project documentation are under the MIT License. See `LICENSE`. Copyright 2026 jjh-python667.
+`images/ship.bmp` is a 60×48 upward rocket. `images/alien.bmp` is a 48×36 green creature. Both are 24-bit BMPs whose corner color is the same light gray as the window. This repository does not record who made them. On 2026-11-11 they were compared with the bitmaps in the public [ehmatthes/pcc_2e](https://github.com/ehmatthes/pcc_2e) and [ehmatthes/pcc_3e](https://github.com/ehmatthes/pcc_3e) repositories. They are different pictures: the book's ship is a side-view rocket, and the book's alien is a larger flying saucer (60×58).
 
-源代码和项目文档使用 MIT 许可，见 `LICENSE`。版权所有 © 2026 jjh-python667。
+`images/ship.bmp` 是 60×48 的向上火箭，`images/alien.bmp` 是 48×36 的绿色小生物。两张都是 24 位 BMP，四角的浅灰和窗口背景相同。仓库里没有写下作者。2026-11-11 与公开仓库 [ehmatthes/pcc_2e](https://github.com/ehmatthes/pcc_2e)、[ehmatthes/pcc_3e](https://github.com/ehmatthes/pcc_3e) 里的教材位图对比过，画面不同：教材飞船是侧面火箭，教材外星人是更大的飞碟（60×58）。
 
-`images/ship.bmp` is a 60×48 upward rocket. `images/alien.bmp` is a 48×36 green creature. Both are 24-bit BMPs whose corner color is the same light gray as the window. This repository does not record who made them or a separate license for them. On 2026-11-11 they were compared with the bitmaps in the public [ehmatthes/pcc_2e](https://github.com/ehmatthes/pcc_2e) and [ehmatthes/pcc_3e](https://github.com/ehmatthes/pcc_3e) repositories. They are different pictures: the book's ship is a side-view rocket, and the book's alien is a larger flying saucer (60×58). Copy these two files into another project only after their author and license are recorded.
+The text of *Python Crash Course* is not in this repository. The window title uses the Star Wars name, and the repository has no Star Wars artwork.
 
-`images/ship.bmp` 是 60×48 的向上火箭，`images/alien.bmp` 是 48×36 的绿色小生物。两张都是 24 位 BMP，四角的浅灰和窗口背景相同。仓库里没有写下作者，也没有单独的许可。2026-11-11 与公开仓库 [ehmatthes/pcc_2e](https://github.com/ehmatthes/pcc_2e)、[ehmatthes/pcc_3e](https://github.com/ehmatthes/pcc_3e) 里的教材位图对比过，画面不同：教材飞船是侧面火箭，教材外星人是更大的飞碟（60×58）。在写明作者和许可之前，不要把这两张图拷进别的项目。
+《Python Crash Course》的正文不在这个仓库里。窗口标题用了 Star Wars 这个名字，仓库里没有星球大战的角色或电影图片。
 
-The MIT text does not include the prose of *Python Crash Course*, and it does not grant rights in the Star Wars name.
-
-这份 MIT 文本不包括《Python Crash Course》的正文，也不授予 Star Wars / 星球大战这个名称的权利。
+项目参考了教材示例，图片素材的授权需要单独核对，本仓库不对教材和素材作额外授权声明。
 
 ## Related · 相关
 
