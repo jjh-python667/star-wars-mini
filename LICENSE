@@ -1,0 +1,35 @@
+MIT License
+
+Copyright (c) 2026 jjh-python667
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Scope of this repository
+
+The permission grant above applies to the source code and project documentation
+in this repository. It does not apply to the following:
+
+- images/ship.bmp and images/alien.bmp. This repository does not record an
+  author or a license for those two files. They are also not the bitmap files
+  distributed with the public Python Crash Course source repositories. Read
+  README.md before copying them.
+- The text of Python Crash Course (No Starch Press). That book is not included
+  here.
+- The Star Wars name. This repository has no Star Wars artwork. The project is
+  an unofficial student exercise.
