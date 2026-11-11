@@ -7,6 +7,8 @@ class Settings:
         self.screen_height = 800
         self.bg_color = (230, 230, 230)
         self.fps = 60
+        # 一帧最多补 3 帧的位移，避免卡顿后跳太远
+        self.max_frame_scale = 3.0
         self.respawn_delay_ms = 500
         self.hud_height = 100
         self.controls_height = 32

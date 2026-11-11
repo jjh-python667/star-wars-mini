@@ -1,8 +1,26 @@
+# Python 缓存
 __pycache__/
 *.pyc
+*.pyo
+
+# 最高分写在 game_stats.py 旁边，临时文件用于先写完再替换
 high_score.txt
 high_score.txt.*.tmp
-backup_before_ch12/
-.DS_Store
-.checks/
+
+# 虚拟环境和本地工具缓存
 .venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# 系统和编辑器
+.DS_Store
+Thumbs.db
+.idea/
+.checks/
+
+# 以前的本地备份，不是游戏的一部分
+backup_before_ch12/

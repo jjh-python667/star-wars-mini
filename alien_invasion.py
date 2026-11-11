@@ -1,3 +1,9 @@
+"""纵向射击小游戏，用来练习 Pygame。
+
+运行：python alien_invasion.py
+说明和操作见 README.md。窗口标题是 Star Wars Mini。
+"""
+
 from pathlib import Path
 
 import pygame
@@ -61,9 +67,10 @@ class AlienInvasion:
     def run_game(self):
         try:
             while self.running:
-                # Speeds retain their 60-FPS feel. Cap large gaps after a stall.
+                # Scale speeds to this frame. A stall cannot skip more than the cap.
                 frame_scale = min(
-                    self.clock.tick(self.settings.fps) * self.settings.fps / 1000, 3.0)
+                    self.clock.tick(self.settings.fps) * self.settings.fps / 1000,
+                    self.settings.max_frame_scale)
                 self._check_events()
                 if not self.running:
                     break
@@ -190,8 +197,8 @@ class AlienInvasion:
             self.bullets, self.aliens, True, True)
 
         if collisions:
-            for aliens in collisions.values():
-                self.stats.score += self.settings.alien_points * len(aliens)
+            for hit_aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(hit_aliens)
             self.sb.prep_score()
             self.sb.check_high_score()
 
@@ -200,7 +207,7 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
-            self.stats.level = self.stats.level + 1
+            self.stats.level += 1
             self.sb.prep_level()
 
     def _create_fleet(self):
@@ -311,6 +318,10 @@ class AlienInvasion:
         pygame.display.flip()
 
 
-if __name__ == '__main__':
+def main():
     ai = AlienInvasion()
     ai.run_game()
+
+
+if __name__ == '__main__':
+    main()

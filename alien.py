@@ -15,6 +15,7 @@ class Alien(Sprite):
         self.x = float(self.rect.x)
 
     def check_edges(self):
+        # 只看左右有没有碰到窗口边缘。上下边界在主程序里另算。
         screen_rect = self.screen.get_rect()
         if self.settings.fleet_direction > 0:
             return self.rect.right >= screen_rect.right
